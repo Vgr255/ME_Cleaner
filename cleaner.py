@@ -39,9 +39,11 @@ for i, child in enumerate(root):
                     for block in element[0]:
                         if block.tag == "SubtypeName":
                             if block.text == "ScrapWoodBranches": 
-                                to_remove.append((i, obj))
+                                to_remove.append(obj)
 
-for i, child in to_remove:
+        break
+
+for child in to_remove:
     root[i].remove(child)
 
 print ("deleted %i branches" % len(to_remove)) # Python 2 & 3 compatibility
