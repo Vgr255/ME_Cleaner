@@ -19,12 +19,7 @@ import os
 #  - Code improved and fixed by Vgr (also on IRC)         #
 ###########################################################
 
-with open("SANDBOX_0_0_0_.sbs") as file, open("SANDBOX_0_0_0_.bak", "w") as backup:
-    content = file.readlines()
-    backup.write(os.linesep.join(content))
-    header = content[1]
-
-tree = ET.parse('SANDBOX_0_0_0_.sbs') # creates XML tree from sandbox.sbc file
+tree = ET.parse("SANDBOX_0_0_0_.sbs") # creates XML tree from sandbox.sbc file
 root = tree.getroot() # creates XML root from the tree
 
 to_remove = [] # list of stuff to remove
@@ -43,12 +38,20 @@ for i, child in enumerate(root):
 
         break
 
+if not to_remove:
+    quit() # we're not removing anything, so let's not bother continuing
+
+with open("SANDBOX_0_0_0_.sbs") as file, open("SANDBOX_0_0_0_.bak", "w") as backup:
+    content = file.readlines()
+    backup.write(os.linesep.join(content))
+    header = content[1]
+
 for child in to_remove:
     root[i].remove(child)
 
-print ("deleted %i branches" % len(to_remove)) # Python 2 & 3 compatibility
+print ("Deleted %i branches" % len(to_remove)) # Python 2 & 3 compatibility
 tree = ET.ElementTree(root)
-tree.write('SANDBOX_0_0_0_.sbs', encoding='utf-8', xml_declaration=True) # save the file
+tree.write("SANDBOX_0_0_0_.sbs", encoding="utf-8", xml_declaration=True) # save the file
 
 with open("SANDBOX_0_0_0_.sbs") as world:
     data = world.readlines()
